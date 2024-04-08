@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
+require('dotenv').config();
+const secret_key = process.env.SECRET_KEY
 
 exports.signupUser = async (req, res) => {
     try {
@@ -56,7 +58,7 @@ exports.signinUser = async (req, res) => {
 
         const token = jwt.sign({
             user:{ id: user._id, username: user.username, email:user.email }
-        }, "MY App", { expiresIn: 86400 });
+        }, secret_key, { expiresIn: 86400 });
 
         // Set the token in a cookie (optional)
         res.cookie("jwt", token, { maxAge: 86400, httpOnly: true });

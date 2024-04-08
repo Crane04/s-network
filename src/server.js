@@ -1,17 +1,20 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require('cookie-parser')
-const User = require("./models/userModel")
 const userRoutes = require("./routes/userRoutes")
+require('dotenv').config();
+const port = process.env.PORT || 3000
+const db_url = process.env.DB_URL
+
 const app = express()
 
 app.use(cookieParser());
 app.use(express.json());
-app.use("/accounts",userRoutes)
+app.use("/accounts", userRoutes)
 
-mongoose.connect("mongodb+srv://admin:admin@socialnetwork.kyrqrkj.mongodb.net/socialnetwork?retryWrites=true&w=majority&appName=socialnetwork")
+mongoose.connect(db_url)
 .then(() => {
-    app.listen(3000, () => {
+    app.listen(port, () => {
         console.log("Server is running on port 3000")
     })
 })

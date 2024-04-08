@@ -58,7 +58,7 @@ exports.signinUser = async (req, res) => {
 
         const token = jwt.sign({
             user:{ id: user._id, username: user.username, email:user.email }
-        }, secret_key, { expiresIn: 86400 });
+        }, "MY App", { expiresIn: 86400 });
 
         // Set the token in a cookie (optional)
         res.cookie("jwt", token, { maxAge: 86400, httpOnly: true });

@@ -19,10 +19,15 @@ exports.MakePost = async(req, res) => {
 }
 
 exports.GetPosts = async (req, res) => {
+  const { page } = req.query
+
     try {
       // Query all posts and populate the 'user' field with the user details
       const posts = await Post.find().populate('user', "-password");
-      res.status(200).json(posts);
+      if(!page || page == 0){
+        res.status(200).json(posts.slice(0, 20));
+      }
+      res.status(200).json(posts.slice(20*page));
     } catch (error) {
       console.error('Error fetching posts:', error);
       res.status(500).json({ error: 'Internal server error' });
